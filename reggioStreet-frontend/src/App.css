@@ -48,6 +48,12 @@
 .product-box{
   border: 0.20em solid #646cffaa; /* sceglie il colore e spessore della cornice*/
   /*border-radius: 10%; rende la cornice più tonda*/
+  float: left; /* mette le scatole una di fianco a l'altra*/
+  min-width: 150px; /* le da' una grandezza standard*/
+  padding:8px; /* distacco dal centro */
+  margin: 20px; /* distanza le scatole una dall'altra*/
+
+  
 }
 
 .product-box h2{
@@ -55,6 +61,14 @@
   margin-top: 0;
   position: relative; /* fa funzionare il right*/
   right: 0; /* quanto a destra deve stare */
+}
+
+.button-to-add{
+  border: 0.20em solid #86987f;
+  padding-top: 0px;
+  background-color: #86987f;
+  border-radius: 5%;
+  margin: 10%;
 }
 
 @keyframes logo-spin {

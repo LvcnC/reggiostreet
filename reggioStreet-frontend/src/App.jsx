@@ -9,7 +9,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"; // import the r
 // 2. RUN -> "  npm install --save react-router-dom"  into the TERMINALE
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     

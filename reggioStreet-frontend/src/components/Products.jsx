@@ -43,10 +43,10 @@ function Products(){
                         <h2>{product.name}</h2>
                         <hr></hr>
                         <h2>{product.price} €</h2>
+                        <a href="/add-product" className="button-to-add">Add product</a>
                     </div>
                 ))
                 }
-                <br></br>
                 </div>
         </Fragment>
     )
