@@ -18,6 +18,10 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.navbar-div{
+  background-color: #888;
+  
+}
  
 .navbar{ 
   /* muove il navbar in alto a destra*/
@@ -65,10 +69,8 @@
 
 .button-to-add{
   border: 0.20em solid #86987f;
-  padding-top: 0px;
   background-color: #86987f;
-  border-radius: 5%;
-  margin: 10%;
+  border-radius: 5%; /* per renderlo più tondo*/
 }
 
 @keyframes logo-spin {

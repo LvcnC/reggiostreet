@@ -3,6 +3,7 @@ import './App.css'
 import NavBar from './components/NavBar' // import the component you want
 import Home from './components/Home'
 import Products from './components/Products'
+import Product from './components/Product'
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // import the routes to use them!!
 // THIS you MUST IMPORT
 // 1. ADD -> " "react-router-dom": "^6.30.0" "        into the dependencies of package.json
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}  />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<Product/>} />
           </Routes>
     </BrowserRouter>
     
