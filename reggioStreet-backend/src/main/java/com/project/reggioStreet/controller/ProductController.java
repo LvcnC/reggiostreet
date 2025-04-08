@@ -58,6 +58,7 @@ public class ProductController {
         // which MUST refer/BOUND to the PARAMETER of the function
         // -> @PathVariable 
         // method parameter <-> URI template variable
+        System.out.println("tring to fetch");
         return service.getProductById(id);
     }
 
