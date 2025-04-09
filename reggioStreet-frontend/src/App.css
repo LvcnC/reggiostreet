@@ -49,7 +49,7 @@
 }
 
 /* for the boxes that contain the products*/
-.product-box{
+.products-box{
   border: 0.20em solid #646cffaa; /* sceglie il colore e spessore della cornice*/
   /*border-radius: 10%; rende la cornice più tonda*/
   float: left; /* mette le scatole una di fianco a l'altra*/
@@ -60,7 +60,7 @@
   
 }
 
-.product-box h2{
+.products-box h2{
   margin-bottom: 0; /* bottom space */
   margin-top: 0;
   position: relative; /* fa funzionare il right*/
@@ -71,6 +71,18 @@
   border: 0.20em solid #86987f;
   background-color: #86987f;
   border-radius: 5%; /* per renderlo più tondo*/
+}
+
+.button-to-delete{
+  border: 0.20em solid #8576a9;
+  background-color: #8576a9;
+  border-radius: 5%; /* per renderlo più tondo*/
+}
+
+.product-box{
+  border: 0.20em solid #646cffaa;
+  padding:8px;
+  min-width: 200px;
 }
 
 @keyframes logo-spin {

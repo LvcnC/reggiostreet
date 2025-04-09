@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Product = () => {
   const { id } = useParams();
-const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -22,29 +22,27 @@ const [product, setProduct] = useState([]);
 
   return (
     <>
-      <div className="containers">
-        <div className="right-column">
-          <div className="product-description">
+      <div className="product-box">
+
             <h1>{product.name}</h1>
-            <h5>{product.category}</h5>
-            <p>{product.price}</p>
+            <hr></hr>
+            <h3>Category: {product.category}</h3>
+            <h3>Price: {product.price} euros</h3>
           </div>
 
-          <div className="update-button ">
+          <div className="update-button">
             <button
-              className="btn btn-primary"
+              className="button-to-add"
               type="button">
               Update
             </button>
         
             <button
-              className="btn btn-primary"
+              className="button-to-delete"
               type="button">
               Delete
             </button>
           </div>
-        </div>
-      </div>
     </>
   );
 };

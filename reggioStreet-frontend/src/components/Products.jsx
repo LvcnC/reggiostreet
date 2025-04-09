@@ -39,10 +39,11 @@ function Products(){
                 <div className="grid">
                 
                 {products.map((product) => (
-                    <div className="product-box">
+                    <div className="products-box">
                         <h2>{product.name}</h2>
                         <hr></hr>
                         <h2>{product.price} €</h2>
+                        
                         <a href="/add-product" className="button-to-add">Add product</a>
                     </div>
                 ))
