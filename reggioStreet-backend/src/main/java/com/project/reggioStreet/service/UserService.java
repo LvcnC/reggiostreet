@@ -32,7 +32,7 @@ public class UserService {
         return repo.findAll();
     }
 
-    public User getUserById(@PathVariable int id){
+    public User getUserById(int id){
         return repo.findById(id).get();
     }
 
@@ -42,7 +42,12 @@ public class UserService {
 
     public void updateUser(User user){
         repo.save(user);
+
+        // if the user has an actual group he belongs to
+        if(user.getGroup() != null)
+            updateBudgetToGroup(user.getGroup().getGroupId());
     }
+
 
     /** saves and ties a product to the user
      * 
@@ -79,12 +84,11 @@ public class UserService {
         // so we need to ask her to also update the junction with a new record
     }
 
-    public void updateBudgetToGroup(int userId){
-        user = repo.findById(userId).get();
+    public void updateBudgetToGroup(int groupId){
         // now we get the group the user belongs to
-        Group group = repoGroups.findById(user.getGroup().getGroupId()).get();
+        Group group = repoGroups.findById(groupId).orElse(null);
 
-        group.setBudget(user.getBudget());
+        group.updateBudget(user.getBudget());
     }
 
     public List<Product> showProductsOf(int userId){

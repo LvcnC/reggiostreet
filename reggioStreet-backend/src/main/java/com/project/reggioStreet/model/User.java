@@ -92,7 +92,9 @@ public class User
         this.budget = budget;
     }
 
-    
+    public void updateBudget(float newBudget){
+        this.budget += newBudget;
+    }
     
     public String toString(){
         return userId + " - " + username + " - " + password  + " - " + dob;

@@ -3,6 +3,8 @@ package com.project.reggioStreet.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +38,9 @@ public class ProductController {
     // how do we fix this? thanks to SB we only have to add an annotation
     // @CrossOrigin
 
+    @Autowired
+    private Product prod;
+
     public ProductController(){
 
     }
@@ -53,13 +58,18 @@ public class ProductController {
 
     // i only want to see this specific product
     @RequestMapping("/products/{id}")
-    public Product getProductById(@PathVariable int id){
+    public ResponseEntity<Product> getProductById(@PathVariable int id){
         // so we insert a PLACEHOLDER {id} ->
         // which MUST refer/BOUND to the PARAMETER of the function
         // -> @PathVariable 
         // method parameter <-> URI template variable
-        System.out.println("tring to fetch");
-        return service.getProductById(id);
+    
+        prod = service.getProductById(id);
+
+        if(prod != null)
+            return new ResponseEntity<>(prod, HttpStatus.OK);
+        
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // same URL, but different HHTTP method(POST!)
@@ -97,10 +107,15 @@ public class ProductController {
         return service.findProductQuantity(wantedQt);
     }
 
+    // To let the frontend know more, other than sending the OBJECT, we can also send the HTTP STATUS
+    // even a personalized one! 
+    // so it's: OBJECT + HTTP STATUS
+    // Concretetly we do that by SENDING a RESPONSE ENTITY (OBJECT + HTTP STATUS)
     @RequestMapping("products/status/{statusProduct}")
-    public List<Product> availableProducts(@PathVariable("statusProduct") String status){
-        System.out.println(status);
-        return service.availableProducts(status);
+    public ResponseEntity<List<Product>> availableProducts(@PathVariable("statusProduct") String status){
+        // So we need to return an Object (a new one i guess) of the ResponseEntity
+        // OBJECT + HTTP STATUS
+        return new ResponseEntity<>(service.availableProducts(status), HttpStatus.OK);
     }
 
 }

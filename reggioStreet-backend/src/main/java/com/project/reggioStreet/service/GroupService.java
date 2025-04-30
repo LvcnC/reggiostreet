@@ -20,7 +20,7 @@ public class GroupService{
     private UserRepo repoUser;
 
     @Autowired
-    private User us;
+    private User user;
 
     @Autowired
     private Group group;
@@ -43,44 +43,45 @@ public class GroupService{
         // I dont like it, modify it one day
 
         // 1. take them both from the db
-        us = repoUser.findById(userId).get();
-        Group group = repo.findById(groupId).get();
+        user = repoUser.findById(userId).get();
+        group = repo.findById(groupId).get();
 
         // 2. now add the GROUP as a property to the USER 
         // since it's one to many, only the many (users) hold the foreign key
-        us.setGroup(group);
+        user.setGroup(group);
         // give the user object its group property
 
         // 3. Update the GROUP budget now that it own USER
         // method that adds the user's money to the group
-        updateGroupBudget(us);
+        updateGroupBudget(userId, groupId);
 
         // 4. Save User
-        repoUser.save(us);
+        repoUser.save(user);
     }
     
     
-    public void updateGroupBudget(User user){
-        // 1. RETRIEVE group from the db
-        int groupId = user.getGroup().getGroupId();
+    public void updateGroupBudget(int userId, int groupId){
+        user = repoUser.findById(userId).orElse(null);
+
+        // 1. find the group you want to update
         group = repo.findById(groupId).get();
         // 2. SET the new BUDGET (given by user)
-        group.setBudget(user.getBudget());
+        group.updateBudget(user.getBudget());
         // 3. SAVE the updates to the db
         repo.save(group);
     }
 
     public void leaveGroup(int userId) {
-        us = repoUser.findById(userId).get();
+        user = repoUser.findById(userId).get();
 
-        int groupId = us.getGroup().getGroupId();
+        int groupId = user.getGroup().getGroupId();
 
         group = repo.findById(groupId).get();
 
         // take away the group
-        us.setGroup(null);
+        user.setGroup(null);
 
-        repoUser.save(us);
+        repoUser.save(user);
     }
 
 

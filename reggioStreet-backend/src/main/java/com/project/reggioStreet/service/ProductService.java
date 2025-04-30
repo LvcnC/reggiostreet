@@ -38,7 +38,7 @@ public class ProductService {
 
         // both works!
         // return dp.searchForId(id);
-        return repo.findById(id).orElse(new Product());
+        return repo.findById(id).orElse(null);
     }
 
     // insert a name -> get products with this name

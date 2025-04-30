@@ -61,6 +61,10 @@ public class Group {
     }
 
     public void setBudget(float budget) {
+        this.budget = budget;
+    }
+
+    public void updateBudget(float budget) {
         this.budget += budget;
     }
 
