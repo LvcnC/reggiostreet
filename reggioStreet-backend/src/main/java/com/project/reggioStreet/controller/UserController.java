@@ -43,6 +43,7 @@ public class UserController {
         service.createUser(user);
     }
 
+    /*
     // doesnt work properly
     @PutMapping("/users")
     public void updateUser(@RequestBody User user){
@@ -52,6 +53,7 @@ public class UserController {
             serviceGroup.updateGroupBudget(user);
         }
     }
+    */
 
     /**
      * A product is being saved in the table 'user_products'
@@ -90,11 +92,13 @@ public class UserController {
         serviceGroup.joinGroup(userId,groupId);
     }
 
+    /*
     // you should be able to leave a group as well
     @DeleteMapping("/{userid}/leave/{groupid}")
     public void leaveGroup(@PathVariable("userid") int userId,
                             @PathVariable("groupid") int groupId){
         serviceGroup.leaveGroup(userId);
     }
+    */
 
 }

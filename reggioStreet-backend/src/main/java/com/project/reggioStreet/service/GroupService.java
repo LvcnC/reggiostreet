@@ -48,29 +48,35 @@ public class GroupService{
 
         // 2. now add the GROUP as a property to the USER 
         // since it's one to many, only the many (users) hold the foreign key
-        user.setGroup(group);
+        user.addGroup(group);
         // give the user object its group property
 
         // 3. Update the GROUP budget now that it own USER
         // method that adds the user's money to the group
-        updateGroupBudget(userId, groupId);
+        // updateGroupBudget(userId, groupId);
 
         // 4. Save User
         repoUser.save(user);
     }
     
-    
-    public void updateGroupBudget(int userId, int groupId){
+    // this should be the main component
+    // the user actively chooses how much money to give to each group
+    public void updateGroupBudget(int userId, int groupId, float budget){
         user = repoUser.findById(userId).orElse(null);
 
         // 1. find the group you want to update
         group = repo.findById(groupId).get();
+        // 1.5 if the User is PART of the group
+        if(group == user.getGroup()){
+
+        }
         // 2. SET the new BUDGET (given by user)
-        group.updateBudget(user.getBudget());
+        group.updateBudget(budget);
         // 3. SAVE the updates to the db
         repo.save(group);
     }
 
+    /*
     public void leaveGroup(int userId) {
         user = repoUser.findById(userId).get();
 
@@ -83,6 +89,6 @@ public class GroupService{
 
         repoUser.save(user);
     }
-
+    */
 
 }

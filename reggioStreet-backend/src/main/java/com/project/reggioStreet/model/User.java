@@ -1,24 +1,18 @@
 package com.project.reggioStreet.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Component
@@ -29,6 +23,8 @@ public class User
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Min(value = 1) // here we are using a form of check/validation
+    // we are saying, for the field "userId" -> the value MUST NOT be under 1 
     @Column(name = "user_id")
     private int userId;
     
@@ -40,12 +36,9 @@ public class User
     @ManyToMany
     private List<Product> products = new ArrayList<>();
 
-    @ManyToOne
-    private Group group;
-
-    // one user has one shoppingCart
-    //@OneToOne
-    //private ShoppingCart shoppingCart;
+    // one user has multiple groups, and a group has multipe users
+    @ManyToMany
+    private List<Group> groups = new ArrayList<>();
 
     // hibernate needs it!!!!!!!!!!!
     public User(){
@@ -108,12 +101,27 @@ public class User
         this.products = products;
     }
 
-    public Group getGroup() {
-        return group;
+    public List<Group> getGroups() {
+        return groups;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    /** adds a new group element to the List of existing groups
+     * @param group
+     */
+    public void addGroup(Group group) {
+
+        try{
+            // if the user is not already in the group
+            if(!groups.contains(group))
+                this.groups.add(group);
+                // add it
+            else
+                System.out.println("The user is already present in this group");
+        }catch(Exception err){
+            System.out.println("Check if there is any group to loop through");
+            err.printStackTrace();
+        }
+
     }
 
 }

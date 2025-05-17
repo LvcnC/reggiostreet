@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.project.reggioStreet.model.Group;
 import com.project.reggioStreet.model.Product;
@@ -28,6 +27,12 @@ public class UserService {
     @Autowired
     private User user;
 
+    @Autowired
+    private Product product;
+
+    @Autowired
+    private Group group;
+
     public List<User> getUsers(){
         return repo.findAll();
     }
@@ -40,30 +45,26 @@ public class UserService {
         repo.save(user);
     }
 
+    /*
     public void updateUser(User user){
         repo.save(user);
 
         // if the user has an actual group he belongs to
         if(user.getGroup() != null)
-            updateBudgetToGroup(user.getGroup().getGroupId());
+            updateBudgetToGroup(user.getGroup());
     }
+    */
 
-
-    /** saves and ties a product to the user
-     * 
-     * @param userId
-     * @param prodId
-     */
-    public void saveProductForUser(int userId, int prodId) {
-        User user = null;
-        Product prod = null;
+    /*
+    public void saveProductForUser(User us, Product prod) {
         
+        // let's hope they are not null
         try{
             // 1. Find the USER, Find the PRODUCT from the database
-        // find the user throught its id
-        user = repo.findById(userId).get();
-        // find the product throught its id
-        prod = repoProducts.findById(prodId).get();
+            // find the user throught its id
+            
+
+
         }catch(NullPointerException ex){
             System.out.println("User or Product not found");
             ex.printStackTrace();
@@ -83,16 +84,26 @@ public class UserService {
         // The table User is responsible of creating and updating the junction 'user_producy'
         // so we need to ask her to also update the junction with a new record
     }
+    */
 
-    public void updateBudgetToGroup(int groupId){
+    public void updateBudgetToGroup(User us, Group grp, float updatedBudget){
         // now we get the group the user belongs to
-        Group group = repoGroups.findById(groupId).orElse(null);
+        try{
+            // if the user is in that group
+            if(grp.getUsers().contains(us)){
+                grp.updateBudget(updatedBudget);
+            }else{
+                System.out.println("The user is not in the group");
+            }
 
-        group.updateBudget(user.getBudget());
+        }catch(Exception err){
+            err.printStackTrace();
+        }
+
     }
 
-    public List<Product> showProductsOf(int userId){
-        User user = repo.findById(userId).get();
+    public List<Product> showProductsOf(User us){
+        
         
         return user.getProducts();
     }

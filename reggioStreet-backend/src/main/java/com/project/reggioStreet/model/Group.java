@@ -13,7 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Component
@@ -32,9 +32,15 @@ public class Group {
     private String description;
     private int numPartecipants;
 
-    @JsonIgnore // it goes in overflow
-    @OneToMany(mappedBy = "group")
+    @JsonIgnore // it goes in overflow otherwise
+    @ManyToMany(mappedBy = "groups")
     private List<User> users = new ArrayList<>();
+
+    // each groups has n products
+    @JsonIgnore
+    @ManyToMany(mappedBy = "groups")
+    private List<Product> products = new ArrayList<>();
+    //this might cause problems
 
     public Group(){
 
@@ -84,8 +90,6 @@ public class Group {
         this.numPartecipants = numPartecipants;
     }
 
-    
-
     public String toString(){
         return groupId  + " - " + name + " - " 
                         + budget + " - " + description + " - " + numPartecipants; 
@@ -95,8 +99,19 @@ public class Group {
         return users;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void addUser(User us){
+
+        try{
+            if(!users.contains(us)){
+                users.add(us);
+            }else
+                System.err.println("The user is already present in this group");
+
+        }catch(Exception err){
+            System.out.println("Check if there is any user to loop through");
+            err.printStackTrace();
+        }
+
     }
 
 }

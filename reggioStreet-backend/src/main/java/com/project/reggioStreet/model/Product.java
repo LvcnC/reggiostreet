@@ -35,7 +35,7 @@ public class Product{
     @Column(name = "prod_id")
     private int prodId;
 
-    // hibernate MAPPA these properties into sql columns
+    // hibernate MAPS these properties into sql columns
     private String name;
     private float price;
     private String category;
@@ -47,18 +47,15 @@ public class Product{
     @Enumerated(EnumType.STRING) 
     private Status status;
 
-    // see the absence of mappedBy?
-    // because Product is responsible of creating
+    // each product belongs to n groups
+    @JsonIgnore
+    @ManyToMany
+    private List<Group> groups = new ArrayList<>();
+
     // product_user
     @JsonIgnore // -> without this, it goes in Stack Overflow
     @ManyToMany(mappedBy = "products")
     private List<User> users = new ArrayList<>();
-
-    // when using the man7 to many relatioship
-    // both have a lists of each other
-    //@ManyToMany(mappedBy = "products")
-    // @ManyToOne
-
     
     // if you DONT specify it, product will also create the bridge table
     // and you have:

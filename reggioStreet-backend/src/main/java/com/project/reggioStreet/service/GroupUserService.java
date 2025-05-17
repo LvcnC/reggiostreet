@@ -32,6 +32,7 @@ public class GroupUserService {
     @Autowired
     public GroupRepo groupRepo;
 
+    /*
     public void updateUserBudget(int userId, float newBudget){
         // 1. RETRIEVE user from the db
         user = userRepo.findById(userId).orElse(null);
@@ -43,5 +44,5 @@ public class GroupUserService {
         // 4. update the group budget as consequence
         groupService.updateGroupBudget(userId, );
     }
-
+    */
 }
