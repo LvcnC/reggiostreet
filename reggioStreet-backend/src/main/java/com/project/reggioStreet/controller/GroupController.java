@@ -17,7 +17,8 @@ import com.project.reggioStreet.service.GroupService;
 public class GroupController {
     
     @Autowired
-    private GroupService service;
+    private GroupService serviceGroup;
+
 
     @RequestMapping("/groups")
     public List<Group> getGroups(){
@@ -34,7 +35,5 @@ public class GroupController {
     public List<User> getPartecipants(@PathVariable("groupid") int groupId){
         return service.getPartecipants(groupId);
     }
-
-    
 
 }

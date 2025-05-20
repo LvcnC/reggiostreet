@@ -6,18 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.reggioStreet.model.Group;
+import com.project.reggioStreet.model.Product;
 import com.project.reggioStreet.model.User;
 import com.project.reggioStreet.repository.GroupRepo;
+import com.project.reggioStreet.repository.ProductRepo;
 import com.project.reggioStreet.repository.UserRepo;
 
 @Service
 public class GroupService{
     
     @Autowired
-    private GroupRepo repo;
+    private GroupRepo repoGroup;
 
     @Autowired
     private UserRepo repoUser;
+
+    @Autowired
+    private ProductRepo repoProduct;
 
     @Autowired
     private User user;
@@ -25,70 +30,96 @@ public class GroupService{
     @Autowired
     private Group group;
 
+    @Autowired
+    private Product product;
+
     public List<Group> getGroups(){
-        return repo.findAll();
+        return repoGroup.findAll();
     }
 
     public void createGroup(Group group) {
-        repo.save(group);
+        repoGroup.save(group);
     }
 
     public List<User> getPartecipants(int groupId) {
-        Group group = repo.findById(groupId).get();
+        group = repoGroup.findById(groupId).get();
 
         return group.getUsers();
     }
 
-    public void joinGroup(int userId, int groupId) {
-        // I dont like it, modify it one day
+    public void joinGroup(int usId, int grpId) {
+        // 1. find the user and the group from the DB
+        group = repoGroup.findById(usId).get();
+        user = repoUser.findById(usId).get();
+        // 2. let's check if the user is not already in the group
+        if(!user.getGroups().contains(group))
+        // 3. now add the GROUP as a property to the USER 
+            user.addGroup(group);
+        else
+            System.out.println("The user is already in the group");
 
-        // 1. take them both from the db
-        user = repoUser.findById(userId).get();
-        group = repo.findById(groupId).get();
-
-        // 2. now add the GROUP as a property to the USER 
-        // since it's one to many, only the many (users) hold the foreign key
-        user.addGroup(group);
-        // give the user object its group property
-
-        // 3. Update the GROUP budget now that it own USER
-        // method that adds the user's money to the group
-        // updateGroupBudget(userId, groupId);
-
-        // 4. Save User
+        // 4. Save User and the changes
         repoUser.save(user);
+    }
+
+    public boolean acceptableShare(float existingBudget, float budgetShare){
+        if(existingBudget <= budgetShare)
+            return true;
+        return false;
     }
     
     // this should be the main component
     // the user actively chooses how much money to give to each group
-    public void updateGroupBudget(int userId, int groupId, float budget){
-        user = repoUser.findById(userId).orElse(null);
+    public void updateBudgetToGroup(User us, Group grp, float updatedBudget){
+        // now we get the group the user belongs to
+        try{
+            // if the user is in that group
+            if(grp.getUsers().contains(us)){
 
-        // 1. find the group you want to update
-        group = repo.findById(groupId).get();
-        // 1.5 if the User is PART of the group
-        if(group == user.getGroup()){
+                // if the user can actually give this money to the group
+                if(acceptableShare(us.getBudget(), updatedBudget)){
+                    grp.updateBudget(updatedBudget);
+                    // we need to check if this also works if the input number is negative(i think so)
+                    us.updateBudget(-updatedBudget);;
+                }
+                // save the changes
+                repoGroup.save(grp);
+                repoUser.save(us);
 
+            }else{
+                System.out.println("The user is not in the group");
+            }
+
+        }catch(Exception err){
+            err.printStackTrace();
         }
-        // 2. SET the new BUDGET (given by user)
-        group.updateBudget(budget);
-        // 3. SAVE the updates to the db
-        repo.save(group);
     }
 
-    /*
-    public void leaveGroup(int userId) {
-        user = repoUser.findById(userId).get();
+    public void addProduct(int usId, int grpId, int prdId){
+        product = repoProduct.findById(prdId).get();
+        user = repoUser.findById(usId).get();
+        group = repoGroup.findById(grpId).get();
 
-        int groupId = user.getGroup().getGroupId();
+        // maybe this function should be here instead
+        if(!group.getProducts().contains(product))
+             group.getProducts().add(product);
+        // or you could do
+        // group.addProduct(product);
 
-        group = repo.findById(groupId).get();
+        // perfom math to subtract the price
 
-        // take away the group
-        user.setGroup(null);
+        repoGroup.save(group);
 
-        repoUser.save(user);
     }
-    */
+
+    public void leaveGroup(int usId, int grpId){
+        user = repoUser.findById(usId).get();
+        group = repoGroup.findById(grpId).get();
+
+        if(user.getGroups().contains(group))
+            user.getGroups().remove(group);
+        else
+            System.out.println("The user is not in the group");
+    }
 
 }

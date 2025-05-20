@@ -78,18 +78,18 @@ public class UserController {
         return service.showProductsOf(userId);
     }
 
-    @DeleteMapping("/{userid}/products/{prodid}")
-    public void removeProductForUser(@PathVariable("userid") int userId,
-                                    @PathVariable("prodid") int prodId){
-        
-        service.removeProductForUser(userId, prodId);
-    }
-
     // you should be able to leave a group as well
     @RequestMapping("/{userid}/join/{groupid}")
     public void joinGroup(@PathVariable("userid") int userId,
                         @PathVariable("groupid") int groupId){
         serviceGroup.joinGroup(userId,groupId);
+    }
+
+    @RequestMapping("/{userid}/join/{groupid}")
+    public void leaveGroup(@PathVariable("userid") int usId,
+                            @PathVariable("groupid") int grpId){
+        serviceGroup.leaveGroup(usId, grpId);
+        // check if this works
     }
 
     /*

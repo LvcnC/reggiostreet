@@ -99,6 +99,10 @@ public class Group {
         return users;
     }
 
+    public List<Product> getProducts(){
+        return products;
+    }
+
     public void addUser(User us){
 
         try{
@@ -106,6 +110,19 @@ public class Group {
                 users.add(us);
             }else
                 System.err.println("The user is already present in this group");
+
+        }catch(Exception err){
+            System.out.println("Check if there is any user to loop through");
+            err.printStackTrace();
+        }
+
+    }
+
+
+    public void addProduct(Product prd){
+
+        try{
+            products.add(prd);
 
         }catch(Exception err){
             System.out.println("Check if there is any user to loop through");

@@ -45,15 +45,11 @@ public class UserService {
         repo.save(user);
     }
 
-    /*
+    
     public void updateUser(User user){
         repo.save(user);
-
-        // if the user has an actual group he belongs to
-        if(user.getGroup() != null)
-            updateBudgetToGroup(user.getGroup());
     }
-    */
+    
 
     /*
     public void saveProductForUser(User us, Product prod) {
@@ -86,45 +82,9 @@ public class UserService {
     }
     */
 
-    public void updateBudgetToGroup(User us, Group grp, float updatedBudget){
-        // now we get the group the user belongs to
-        try{
-            // if the user is in that group
-            if(grp.getUsers().contains(us)){
-                grp.updateBudget(updatedBudget);
-            }else{
-                System.out.println("The user is not in the group");
-            }
-
-        }catch(Exception err){
-            err.printStackTrace();
-        }
-
-    }
-
-    public List<Product> showProductsOf(User us){
-        
-        
+    public List<Product> showProductsOf(int usId){
+        user = repo.findById(usId).get();
         return user.getProducts();
-    }
-
-    public void removeProductForUser(int userId, int prodId){
-        // 1. find if USER and PRODUCT are in the database
-        user = repo.findById(userId).get();
-        Product prod = repoProducts.findById(prodId).get();
-
-        // 2. From the lists of PRODUCT of USERS, delete that PRODUCT
-        user.getProducts().remove(prod);
-
-        // 3. SAVE the CHANGES, so load them into the database
-        repo.save(user);
-
-    }
-
-    public void confirmProduct(int userid, int prodid) {
-        
-        
-
     }
 
 }
