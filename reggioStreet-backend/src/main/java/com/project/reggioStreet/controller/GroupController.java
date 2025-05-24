@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.reggioStreet.model.Group;
 import com.project.reggioStreet.model.User;
 import com.project.reggioStreet.service.GroupService;
+import com.project.reggioStreet.service.UserService;
 
 @RestController
 public class GroupController {
@@ -19,21 +20,37 @@ public class GroupController {
     @Autowired
     private GroupService serviceGroup;
 
+    @Autowired
+    private UserService serviceUser;
+
+    @RequestMapping("/groups/{groupid}")
+    public Group getGroup(@PathVariable("groupid") int groupId){
+        return serviceGroup.getGroup(groupId);
+    }
 
     @RequestMapping("/groups")
     public List<Group> getGroups(){
-        return service.getGroups();
+        return serviceGroup.getGroups();
     }
 
     @PostMapping("/groups")
     public void createGroup(@RequestBody Group group){
-        service.createGroup(group);
+        serviceGroup.createGroup(group);
     }
 
     // get all the users associated with a group
     @RequestMapping("/groups/{groupid}/partecipants")
     public List<User> getPartecipants(@PathVariable("groupid") int groupId){
-        return service.getPartecipants(groupId);
+        return serviceGroup.getPartecipants(groupId);
+    }
+
+    @RequestMapping("/groups/{groupid}/partecipant/{userid}")
+    public User getPartecipant(@PathVariable("groupid") int groupId,
+                                @PathVariable("userId") int userId){
+        if(serviceGroup.getGroup(groupId) != null)
+            return serviceUser.getUserById(userId);
+
+        return null;
     }
 
 }

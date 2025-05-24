@@ -18,9 +18,10 @@ import com.project.reggioStreet.model.Product;
 import com.project.reggioStreet.service.ProductService;
 
 // controller talks with the OUTSIDE
-@RestController
-@CrossOrigin // to allow the frontend port to run
+// to allow the frontend port to run
 // @RequestMapping("/api") // to add to every url int this page, /api/...
+@RestController
+@CrossOrigin 
 public class ProductController {
 
     /* WE MUST CONNECT frontend and backend */
@@ -58,21 +59,29 @@ public class ProductController {
 
     // i only want to see this specific product
     @RequestMapping("/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id){
+    public Product getProductById(@PathVariable("id") int id){
         // so we insert a PLACEHOLDER {id} ->
         // which MUST refer/BOUND to the PARAMETER of the function
         // -> @PathVariable 
         // method parameter <-> URI template variable
     
         prod = service.getProductById(id);
+    
+        if(prod == null){
+            System.out.println("prod is null");
+        }
 
-        if(prod != null)
+        // you could also do this
+        //ResponseEntity<Product> re = new ResponseEntity<Product>(prod, HttpStatus.ACCEPTED);
+        /*if(prod != null)
             return new ResponseEntity<>(prod, HttpStatus.OK);
         
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        */
+        return prod;
     }
 
-    // same URL, but different HHTTP method(POST!)
+    // same URL, but different HTTP method(POST!)
     // this controller will handle the REQUEST TO POST something(the object)
     // it will receive the JSON OBJECT and CONVERT IT TO a JAVA OBJECT
     @PostMapping("/products")
@@ -96,8 +105,8 @@ public class ProductController {
     // /products/{id}
     // /products/{name} 
     // even though they are of diffent types, id and name, it still gets confused
-    @RequestMapping("/{name}")
-    public List<Product> getProductsByName(@PathVariable String name){
+    @RequestMapping("products/name/{name}")
+    public List<Product> getProductsByName(@PathVariable("name") String name){
         return service.getProductsByName(name);
     }
 

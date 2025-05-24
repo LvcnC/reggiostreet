@@ -18,13 +18,15 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}  />
             <Route path="/products" element={<Products />} />
-            <Route path="products/:id" element={<Product/>} />
-            <Route path="products" element=
+            <Route path="/products/:id" element={<Product/>} />
+            <Route path="/users" element={<Users />} />
           </Routes>
     </BrowserRouter>
     
   )
 }
+
+
 // ROUTES manage where URL that the user chooses
   // if it types '/products' -> <App /> should LOAD the COMPONENT 'Products', which will do it job
 // in this case APP is the main PAGE which will load different componenent when asked TO

@@ -44,22 +44,11 @@ public class UserController {
     }
 
     /*
-    // doesnt work properly
-    @PutMapping("/users")
-    public void updateUser(@RequestBody User user){
-        service.updateUser(user);
-        if(user.getGroup() != null){
-            System.out.println("im here in users");
-            serviceGroup.updateGroupBudget(user);
-        }
-    }
-    */
-
-    /**
+    
      * A product is being saved in the table 'user_products'
      * @param userId - id of the user who saved the product
      * @param prodId - id of the product saved
-     */
+     
     @PutMapping(value = "/{userid}/products/{prodid}")
     public void saveProduct(@PathVariable("userid") int userId,
                                 @PathVariable("prodid") int prodId){
@@ -67,16 +56,7 @@ public class UserController {
         service.saveProductForUser(userId, prodId);
     }
     // without ("userId") in the @PathVariable, it doesnt work
-
-    /**
-     * Shows every products tied to a user
-     * @param userId
-     * @return List of Products owned by the user
-     */
-    @RequestMapping("/{userid}/products")
-    public List<Product> showProductsOf(@PathVariable("userid") int userId){
-        return service.showProductsOf(userId);
-    }
+    */
 
     // you should be able to leave a group as well
     @RequestMapping("/{userid}/join/{groupid}")
@@ -85,20 +65,11 @@ public class UserController {
         serviceGroup.joinGroup(userId,groupId);
     }
 
-    @RequestMapping("/{userid}/join/{groupid}")
+    @RequestMapping("/{userid}/leave/{groupid}")
     public void leaveGroup(@PathVariable("userid") int usId,
                             @PathVariable("groupid") int grpId){
         serviceGroup.leaveGroup(usId, grpId);
         // check if this works
     }
-
-    /*
-    // you should be able to leave a group as well
-    @DeleteMapping("/{userid}/leave/{groupid}")
-    public void leaveGroup(@PathVariable("userid") int userId,
-                            @PathVariable("groupid") int groupId){
-        serviceGroup.leaveGroup(userId);
-    }
-    */
 
 }

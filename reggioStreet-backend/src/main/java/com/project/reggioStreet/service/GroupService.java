@@ -33,6 +33,10 @@ public class GroupService{
     @Autowired
     private Product product;
 
+    public Group getGroup(int groupdId){
+        return repoGroup.findById(groupdId).get();
+    }
+
     public List<Group> getGroups(){
         return repoGroup.findAll();
     }
@@ -45,6 +49,52 @@ public class GroupService{
         group = repoGroup.findById(groupId).get();
 
         return group.getUsers();
+    }
+    
+    // this should be the main component
+    // the user actively chooses how much money to give to each group
+    public void updateBudgetToGroup(User us, Group grp, float share){
+        // now we get the group the user belongs to
+        try{
+            // if the user is in that group
+            if(grp.getUsers().contains(us)){
+
+                // if the user can actually give this money to the group
+                if(us.getBudget() >= share){
+                    grp.updateBudget(share);
+                    // we need to check if this also works if the input number is negative(i think so)
+                    us.updateBudget(-share);;
+                }
+                // save the changes
+                repoGroup.save(grp);
+                repoUser.save(us);
+
+            }else{
+                System.out.println("The user is not in the group");
+            }
+
+        }catch(Exception err){
+            err.printStackTrace();
+        }
+    }
+
+    public void addProductToGroup(int usId, int grpId, int prdId){
+        product = repoProduct.findById(prdId).get();
+        user = repoUser.findById(usId).get();
+        group = repoGroup.findById(grpId).get();
+
+        if(group.getUsers().contains(user)){
+            // maybe this function should be here instead
+            if(!group.getProducts().contains(product))
+                group.getProducts().add(product);
+        }
+        // or you could do
+        // group.addProduct(product);
+
+        // perfom math to subtract the price
+
+        repoGroup.save(group);
+
     }
 
     public void joinGroup(int usId, int grpId) {
@@ -60,56 +110,6 @@ public class GroupService{
 
         // 4. Save User and the changes
         repoUser.save(user);
-    }
-
-    public boolean acceptableShare(float existingBudget, float budgetShare){
-        if(existingBudget <= budgetShare)
-            return true;
-        return false;
-    }
-    
-    // this should be the main component
-    // the user actively chooses how much money to give to each group
-    public void updateBudgetToGroup(User us, Group grp, float updatedBudget){
-        // now we get the group the user belongs to
-        try{
-            // if the user is in that group
-            if(grp.getUsers().contains(us)){
-
-                // if the user can actually give this money to the group
-                if(acceptableShare(us.getBudget(), updatedBudget)){
-                    grp.updateBudget(updatedBudget);
-                    // we need to check if this also works if the input number is negative(i think so)
-                    us.updateBudget(-updatedBudget);;
-                }
-                // save the changes
-                repoGroup.save(grp);
-                repoUser.save(us);
-
-            }else{
-                System.out.println("The user is not in the group");
-            }
-
-        }catch(Exception err){
-            err.printStackTrace();
-        }
-    }
-
-    public void addProduct(int usId, int grpId, int prdId){
-        product = repoProduct.findById(prdId).get();
-        user = repoUser.findById(usId).get();
-        group = repoGroup.findById(grpId).get();
-
-        // maybe this function should be here instead
-        if(!group.getProducts().contains(product))
-             group.getProducts().add(product);
-        // or you could do
-        // group.addProduct(product);
-
-        // perfom math to subtract the price
-
-        repoGroup.save(group);
-
     }
 
     public void leaveGroup(int usId, int grpId){

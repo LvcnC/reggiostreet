@@ -14,17 +14,17 @@ public interface ProductRepo extends JpaRepository<Product, Integer>{
     // being a child of JpaRepository, we are inheriting its METHOD
 
     // Let's create a COSTUM QUERY with hibernate!
-    @Query(value="select * from product where name = :name", nativeQuery = true)
+    @Query(value="select * from products where name = :name", nativeQuery = true)
     List<Product> findByProductsName(String name);
 
     // maybe with numbers it wants the ?
-    @Query(value="select * from product where qt = ?", nativeQuery = true)
+    @Query(value="select * from products where qt = ?", nativeQuery = true)
     List<Product> findProductQuantity(int wantedQt);
 
-    @Query(value="select * from product where qt > 0", nativeQuery = true)
+    @Query(value="select * from products where qt > 0", nativeQuery = true)
     List<Product> availableQuantitybProducts();
 
-    @Query(value="select * from product where product.status = ?", nativeQuery = true)
+    @Query(value="select * from products where products.status = ?", nativeQuery = true)
     List<Product> availableProducts(String status);
 
 }
