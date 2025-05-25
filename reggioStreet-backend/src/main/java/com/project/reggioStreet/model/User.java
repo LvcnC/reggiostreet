@@ -33,9 +33,6 @@ public class User
     private String dob;
     private float budget;
 
-    @ManyToMany
-    private List<Product> products = new ArrayList<>();
-
     // one user has multiple groups, and a group has multipe users
     @ManyToMany
     private List<Group> groups = new ArrayList<>();
@@ -91,14 +88,6 @@ public class User
     
     public String toString(){
         return userId + " - " + username + " - " + password  + " - " + dob;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     public List<Group> getGroups() {

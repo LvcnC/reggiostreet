@@ -48,15 +48,11 @@ public class Product{
     private Status status;
 
     // each product belongs to n groups
-    @JsonIgnore
+    @JsonIgnore // -> without this, it goes in Stack Overflow
     @ManyToMany
     private List<Group> groups = new ArrayList<>();
 
-    // product_user
-    @JsonIgnore // -> without this, it goes in Stack Overflow
-    @ManyToMany(mappedBy = "products")
-    private List<User> users = new ArrayList<>();
-    
+
     // if you DONT specify it, product will also create the bridge table
     // and you have:
     // shoppingcart_product mapped by ShoppingCart
@@ -112,14 +108,6 @@ public class Product{
     }
     public void setQt(int qt) {
         this.qt = qt;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 
     public Status getStatus() {

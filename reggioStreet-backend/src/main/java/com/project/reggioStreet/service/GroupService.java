@@ -99,7 +99,7 @@ public class GroupService{
 
     public void joinGroup(int usId, int grpId) {
         // 1. find the user and the group from the DB
-        group = repoGroup.findById(usId).get();
+        group = repoGroup.findById(grpId).get();
         user = repoUser.findById(usId).get();
         // 2. let's check if the user is not already in the group
         if(!user.getGroups().contains(group))
@@ -110,6 +110,7 @@ public class GroupService{
 
         // 4. Save User and the changes
         repoUser.save(user);
+        repoGroup.save(group);
     }
 
     public void leaveGroup(int usId, int grpId){

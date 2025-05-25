@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.reggioStreet.model.Group;
+import com.project.reggioStreet.model.Product;
 import com.project.reggioStreet.model.User;
 import com.project.reggioStreet.repository.GroupRepo;
+import com.project.reggioStreet.repository.ProductRepo;
 import com.project.reggioStreet.repository.UserRepo;
 
 @Service
@@ -21,16 +23,25 @@ public class GroupUserService {
     public GroupService groupService;
 
     @Autowired
+    public ProductService productService;
+
+    @Autowired
     public User user;
 
     @Autowired
     public Group group;
 
     @Autowired
+    public Product product;
+
+    @Autowired
     public UserRepo userRepo;
 
     @Autowired
     public GroupRepo groupRepo;
+
+    @Autowired
+    public ProductRepo productRepo;
 
     /*
     public void updateUserBudget(int userId, float newBudget){
@@ -45,4 +56,17 @@ public class GroupUserService {
         groupService.updateGroupBudget(userId, );
     }
     */
+
+    public void addProductToGroup(int usId, int grpId, int prdId){
+        user = userRepo.findById(usId).get();
+        group = groupRepo.findById(grpId).get();
+        product = productRepo.findById(prdId).get();
+
+        if(group.getUsers().contains(user)){
+            group.addProduct(product);
+            groupRepo.save(group);
+            // save the user
+        }        
+
+    }
 }

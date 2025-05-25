@@ -82,9 +82,11 @@ public class UserService {
     }
     */
 
+    /*
     public List<Product> showProductsOf(int usId){
         user = repo.findById(usId).get();
         return user.getProducts();
     }
+    */
 
 }

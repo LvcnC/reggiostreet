@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.reggioStreet.model.Product;
 import com.project.reggioStreet.model.User;
 import com.project.reggioStreet.service.GroupService;
+import com.project.reggioStreet.service.GroupUserService;
 import com.project.reggioStreet.service.UserService;
 
 @RestController
@@ -24,6 +25,9 @@ public class UserController {
 
     @Autowired
     private GroupService serviceGroup;
+
+    @Autowired
+    private GroupUserService serviceGroupUser;
 
     // for the authentification, theres a whole chapter about that
 
@@ -70,6 +74,14 @@ public class UserController {
                             @PathVariable("groupid") int grpId){
         serviceGroup.leaveGroup(usId, grpId);
         // check if this works
+    }
+
+    // it's a get request??
+    @RequestMapping("/{userid}/{groupid}/add/{productid}")
+    public void addProductToGroup(@PathVariable("userid") int usId,
+                            @PathVariable("groupid") int grpId,
+                            @PathVariable("productid") int prdId){
+        serviceGroupUser.addProductToGroup(usId, grpId, prdId);
     }
 
 }
