@@ -46,6 +46,10 @@ public class ProductService {
         return repo.findByProductsName(name);
     }
 
+    public void saveProduct(Product product){
+        repo.save(product);
+    }
+
     public void addProduct(Product product){
         // repo.add() access a METHOD of JPAREPOSITORY  
         // which lanches a QUERY to SAVE your object into the DATABASE

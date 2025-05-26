@@ -33,7 +33,7 @@ public class GroupService{
     @Autowired
     private Product product;
 
-    public Group getGroup(int groupdId){
+    public Group getGroupById(int groupdId){
         return repoGroup.findById(groupdId).get();
     }
 
@@ -43,6 +43,13 @@ public class GroupService{
 
     public void createGroup(Group group) {
         repoGroup.save(group);
+    }
+
+    public List<Product> getProducts(int grpId){
+        
+        group = repoGroup.findById(grpId).get();
+
+        return group.getProducts();
     }
 
     public List<User> getPartecipants(int groupId) {

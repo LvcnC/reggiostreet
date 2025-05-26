@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.reggioStreet.model.Group;
+import com.project.reggioStreet.model.Product;
 import com.project.reggioStreet.model.User;
 import com.project.reggioStreet.service.GroupService;
 import com.project.reggioStreet.service.UserService;
@@ -25,7 +26,7 @@ public class GroupController {
 
     @RequestMapping("/groups/{groupid}")
     public Group getGroup(@PathVariable("groupid") int groupId){
-        return serviceGroup.getGroup(groupId);
+        return serviceGroup.getGroupById(groupId);
     }
 
     @RequestMapping("/groups")
@@ -47,10 +48,16 @@ public class GroupController {
     @RequestMapping("/groups/{groupid}/partecipant/{userid}")
     public User getPartecipant(@PathVariable("groupid") int groupId,
                                 @PathVariable("userId") int userId){
-        if(serviceGroup.getGroup(groupId) != null)
+        if(serviceGroup.getGroupById(groupId) != null)
             return serviceUser.getUserById(userId);
 
         return null;
+    }
+
+    @RequestMapping("/group/{groupid}/products")
+    public List<Product> getProducts(@PathVariable("groupid") int grpId){
+        // if the group exists ofc
+        return serviceGroup.getProducts(grpId);
     }
 
 }
