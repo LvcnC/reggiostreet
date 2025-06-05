@@ -13,7 +13,7 @@ const Product = () => {
         setProduct(response.data);
         console.log(response.data);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error("Error fetching product:", error); 
       }
     };
 

@@ -56,12 +56,14 @@ public class GroupUserController {
 
         // if the product is found in the db!!!
         if(serviceProduct.getProductById(prd.getProdId()) != null){
-            // then let's overwrite it
+            // then let's overwrite / edit it
             serviceProduct.saveProduct(prd);
         }else{
-            System.out.println("the product already exists");
+            System.out.println("the product doesnt exists");
             // maybe we should ask if they want to add it if it does not already exists
         }
     }
+
+    
 
 }

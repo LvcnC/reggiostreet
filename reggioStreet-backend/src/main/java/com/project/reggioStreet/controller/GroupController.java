@@ -60,4 +60,12 @@ public class GroupController {
         return serviceGroup.getProducts(grpId);
     }
 
+    // return budget of a specific group
+    @RequestMapping("/group/{groupid}/budget")
+    public float getBudget(@PathVariable("groupid") int grpId){
+        return serviceGroup.getGroupById(grpId).getBudget();
+    }
+
+    
+
 }
