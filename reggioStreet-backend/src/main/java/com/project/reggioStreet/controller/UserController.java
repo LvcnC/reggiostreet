@@ -3,6 +3,8 @@ package com.project.reggioStreet.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.project.reggioStreet.model.Product;
 import com.project.reggioStreet.model.User;
@@ -29,6 +32,9 @@ public class UserController {
     @Autowired
     private GroupUserService serviceGroupUser;
 
+    @Autowired
+    private User us; 
+
     // for the authentification, theres a whole chapter about that
 
     // get this user
@@ -39,7 +45,14 @@ public class UserController {
 
     @RequestMapping("/users/{id}")
     public User getUser(@PathVariable int id){
-        return service.getUserById(id);
+
+        us = service.getUserById(id);
+
+        if(us == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
+        }
+        
+        return us;
     }
 
     @PostMapping("/users")

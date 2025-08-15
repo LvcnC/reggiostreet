@@ -65,12 +65,12 @@
    			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- This adds spring security -->
+		<!--- This adds spring security 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
+		-->
 	</dependencies>
 
 	<build>

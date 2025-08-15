@@ -1,17 +1,23 @@
 import { useParams } from "react-router-dom";
 import {  useEffect, useState } from "react";
+import { useSearchParams } from 'react-router-dom';
 import axios from "axios";
 
 const Product = () => {
   const { id } = useParams();
+  //const [searchParams, setSearchParams] = useSearchParams();
   const [product, setProduct] = useState([]);
 
+  
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/products/${id}`);
+
         setProduct(response.data);
         console.log(response.data);
+
+        
       } catch (error) {
         console.error("Error fetching product:", error); 
       }
@@ -19,6 +25,7 @@ const Product = () => {
 
     fetchProduct();
   }, [id]);
+
 
   return (
     <>
@@ -28,9 +35,9 @@ const Product = () => {
             <hr></hr>
             <h3>Category: {product.category}</h3>
             <h3>Price: {product.price} euros</h3>
-          </div>
+      </div>
 
-          <div className="update-button">
+      <div className="update-button">
             <button
               className="button-to-add"
               type="button">
@@ -42,7 +49,7 @@ const Product = () => {
               type="button">
               Delete
             </button>
-          </div>
+        </div>
     </>
   );
 };

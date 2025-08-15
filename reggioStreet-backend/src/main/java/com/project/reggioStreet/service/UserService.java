@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public User getUserById(int id){
-        return repo.findById(id).get();
+        return repo.findById(id).orElse(null);
     }
 
     public void createUser(User user){

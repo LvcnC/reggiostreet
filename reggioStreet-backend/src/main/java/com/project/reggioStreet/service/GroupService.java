@@ -34,7 +34,7 @@ public class GroupService{
     private Product product;
 
     public Group getGroupById(int groupdId){
-        return repoGroup.findById(groupdId).get();
+        return repoGroup.findById(groupdId).orElse(null);
     }
 
     public List<Group> getGroups(){
@@ -47,7 +47,8 @@ public class GroupService{
 
     public List<Product> getProducts(int grpId){
         
-        group = repoGroup.findById(grpId).get();
+        // or group = repoGroup.findById(grpId).get();
+        group = repoGroup.findById(grpId).orElse(null);
 
         return group.getProducts();
     }

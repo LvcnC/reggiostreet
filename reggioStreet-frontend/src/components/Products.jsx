@@ -14,6 +14,10 @@ function Products(){
     // se lo volessimo cambiare, NON VA fatto direttamente -> products = 'red';
     // ma ATTRAVERSO IL SET -> setProduct('red');
 
+    // let's get return and keep track of the loading of the products
+    // so we create another hook
+    const [loading, setLoading] = useState(true);
+    // we initialize it with a boolean, true!
 
     /* MAP */
     // CREA un ARRAY da qualcosa
@@ -24,14 +28,24 @@ function Products(){
     useEffect(() => {
         const fetchData = async () => {
           
-           const response = await axios.get("http://localhost:8080/products");
-           setProducts(response.data);
-          // console.log(response.data);
+            const response = await axios.get("http://localhost:8080/products");
+            setProducts(response.data);
+
+            // we set loading true because we got a response
+            setLoading(false);
+            // otherwise it's false
+
+            console.log(response.data);
+            console.log(loading)
         
         };
     
         fetchData();
       }, []);
+
+
+      // so in case the loading it's done (true), we return directly somehthing
+      if (loading) return <div>Loading...</div>
 
     return (
         <Fragment>

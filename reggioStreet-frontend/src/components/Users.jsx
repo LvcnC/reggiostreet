@@ -1,17 +1,15 @@
 import React, { Fragment } from "react";
-import { userState } from "react"; 
+import { useState } from "react"; 
 import axios from "axios"; // to  use useState
 
 function Users(){
 
     // ([]) -> we say it's going be an array?
-    const [users, setUsers ] = userState([]);
-
-    const getUsers = () =>{
+    const [users, setUsers ] = useState([]);
 
         // 1. we ask AXIOS to get to the ENDPOINT of an API
         //    so we go to the digital place where the data is in the backend 
-        axios.get(`http://localhost:8080/users`)
+        axios.get("http://localhost:8080/users")
             .then(response =>{
                 // 2. THEN -> if the response of the API actually arrives !
                 //    we create a parameter(response in this case) and we decide to behave accordingly
@@ -25,10 +23,9 @@ function Users(){
             // 2.5 CATCH -> or there could be an error from the responde of the API :(
                 console.log(error)
             }
-            )        
+        )        
 
-    }
-
+    
     return (
         <>
             {users.map((user) => (
@@ -40,7 +37,7 @@ function Users(){
                         {user.dob}
                     </h2>
                 </div>
-            ))
+                ))
             }
         </>
     )

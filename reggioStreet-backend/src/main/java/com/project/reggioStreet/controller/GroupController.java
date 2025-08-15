@@ -3,11 +3,13 @@ package com.project.reggioStreet.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.project.reggioStreet.model.Group;
 import com.project.reggioStreet.model.Product;
@@ -24,9 +26,19 @@ public class GroupController {
     @Autowired
     private UserService serviceUser;
 
+    @Autowired
+    private Group group;
+
     @RequestMapping("/groups/{groupid}")
     public Group getGroup(@PathVariable("groupid") int groupId){
-        return serviceGroup.getGroupById(groupId);
+
+        group = serviceGroup.getGroupById(groupId);
+
+        if(group == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
+        }
+
+        return group;
     }
 
     @RequestMapping("/groups")

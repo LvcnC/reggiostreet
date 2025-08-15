@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.project.reggioStreet.model.Product;
 import com.project.reggioStreet.service.ProductService;
@@ -49,7 +50,7 @@ public class ProductController {
     // productservice does BUSINESS LOGIC
     @Autowired
     public ProductService service;
-    
+
     // takes the businessd logiced and spit it out 
     @RequestMapping("/products") // at this address
     public List<Product> getProducts(){
@@ -69,7 +70,13 @@ public class ProductController {
     
         if(prod == null){
             System.out.println("prod is null");
+
+            // if the object is NOT found, we throw a 404 error
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "entity not found"
+            );
         }
+
 
         // you could also do this
         //ResponseEntity<Product> re = new ResponseEntity<Product>(prod, HttpStatus.ACCEPTED);

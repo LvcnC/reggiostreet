@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 // REST lets return DATA!! and not just pages ! (like @Controller)
 @RestController
-@RequestMapping("auth") 
+//@RequestMapping("auth") 
 public class HomeController {
 
     @RequestMapping("/welcome")

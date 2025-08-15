@@ -4,10 +4,11 @@ import NavBar from './components/NavBar' // import the component you want
 import Home from './components/Home'
 import Products from './components/Products'
 import Product from './components/Product'
+import Users from './components/Users'
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // import the routes to use them!!
 // THIS you MUST IMPORT
 // 1. ADD -> " "react-router-dom": "^6.30.0" "        into the dependencies of package.json
-// 2. RUN -> "  npm install --save react-router-dom"  into the TERMINALE
+// 2. RUN -> "  npm install --save react-router-dom"  into the TERMINAL
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />}  />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<Product/>} />
+            <Route path="/users" element={<Users />} />
           </Routes>
     </BrowserRouter>
     // // <Route path="/users" element={<Users />} />
